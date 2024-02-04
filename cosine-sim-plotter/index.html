@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosine Similarity Plotter</title>
+    <title>Vector Metrics Calculator</title>
     <style>
         canvas {
             border: 1px solid #000;
-            transform: rotate(-90deg);
         }
     </style>
 </head>
@@ -18,13 +17,15 @@
     <label for="vectorY">Vector Y:</label>
     <input type="text" id="vectorY" placeholder="Enter vector Y (e.g., 2,6)" />
 
-    <button onclick="plotVectors()">Plot</button>
+    <button onclick="calculateMetrics()">Calculate Metrics</button>
 
     <canvas id="plotCanvas" width="500" height="500"></canvas>
 
     <div>
         <p>Angle between vectors: <span id="angle"></span> degrees</p>
         <p>Cosine Similarity Score: <span id="similarity"></span></p>
+        <p>Cosine Distance: <span id="distance"></span></p>
+        <p>Euclidean Distance: <span id="euclideanDistance"></span></p>
     </div>
 
     <script>
@@ -41,18 +42,8 @@
             ctx.stroke();
         }
 
-        // Function to calculate cosine similarity
-        function cosineSimilarity(x, y) {
-            const dotProduct = x[0] * y[0] + x[1] * y[1];
-            const magnitudeX = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
-            const magnitudeY = Math.sqrt(y[0] * y[0] + y[1] * y[1]);
-            const similarity = dotProduct / (magnitudeX * magnitudeY);
-            const angle = Math.acos(similarity) * (180 / Math.PI); // Convert radians to degrees
-            return { angle, similarity };
-        }
-
-        // Function to update vectors and plot
-        function plotVectors() {
+        // Function to calculate metrics
+        function calculateMetrics() {
             // Get vector inputs
             const vectorXInput = document.getElementById('vectorX').value;
             const vectorYInput = document.getElementById('vectorY').value;
@@ -68,21 +59,27 @@
             drawCircle(vectorX[0] * 50, vectorX[1] * 50, 'red'); // Scale by 50 for better visualization
             drawCircle(vectorY[0] * 50, vectorY[1] * 50, 'blue');
 
-            // Calculate cosine similarity
-            const result = cosineSimilarity(vectorX, vectorY);
+            // Calculate cosine similarity and distance
+            const dotProduct = vectorX[0] * vectorY[0] + vectorX[1] * vectorY[1];
+            const magnitudeX = Math.sqrt(vectorX[0] * vectorX[0] + vectorX[1] * vectorX[1]);
+            const magnitudeY = Math.sqrt(vectorY[0] * vectorY[0] + vectorY[1] * vectorY[1]);
+            const cosineSimilarity = dotProduct / (magnitudeX * magnitudeY);
+            const cosineDistance = 1 - cosineSimilarity;
+            
+            // Calculate Euclidean distance
+            const euclideanDistance = Math.sqrt((vectorY[0] - vectorX[0]) ** 2 + (vectorY[1] - vectorX[1]) ** 2);
 
-            // Display angle and similarity score
-            document.getElementById('angle').textContent = result.angle.toFixed(2);
-            document.getElementById('similarity').textContent = result.similarity.toFixed(2);
+            // Display angle, similarity score, cosine distance, and Euclidean distance
+            document.getElementById('angle').textContent = (Math.acos(cosineSimilarity) * (180 / Math.PI)).toFixed(2);
+            document.getElementById('similarity').textContent = cosineSimilarity.toFixed(2);
+            document.getElementById('distance').textContent = cosineDistance.toFixed(2);
+            document.getElementById('euclideanDistance').textContent = euclideanDistance.toFixed(2);
 
-            // Draw arc representing the angle
-            const midX = (vectorX[0] + vectorY[0]) * 25; // Midpoint scaled by 25
-            const midY = (vectorX[1] + vectorY[1]) * 25;
-            const radius = 50; // Radius of the arc
-
+            // Draw line connecting the vectors
             ctx.beginPath();
-            ctx.arc(midX, midY, radius, 0, result.angle * (Math.PI / 180));
-            ctx.strokeStyle = 'green';
+            ctx.moveTo(vectorX[0] * 50, vectorX[1] * 50);
+            ctx.lineTo(vectorY[0] * 50, vectorY[1] * 50);
+            ctx.strokeStyle = 'black';
             ctx.stroke();
         }
     </script>
