@@ -13,17 +13,51 @@
             display: block;
             margin-bottom: 10px;
         }
+
+        input {
+            width: 2em;
+        }
     </style>
 </head>
 <body>
     <div class="input-group">
-        <label for="polygon1">Polygon 1 - Points (X, Y):</label>
-        <input type="text" id="polygon1Points" placeholder="Enter comma-separated points for Polygon 1" />
+        <label for="polygon1">Polygon 1 - Enter 8 Points (X, Y):</label>
+        <input type="text" id="polygon1X1" placeholder="X1" />
+        <input type="text" id="polygon1Y1" placeholder="Y1" />
+        <input type="text" id="polygon1X2" placeholder="X2" />
+        <input type="text" id="polygon1Y2" placeholder="Y2" />
+        <input type="text" id="polygon1X3" placeholder="X3" />
+        <input type="text" id="polygon1Y3" placeholder="Y3" />
+        <input type="text" id="polygon1X4" placeholder="X4" />
+        <input type="text" id="polygon1Y4" placeholder="Y4" />
+        <input type="text" id="polygon1X5" placeholder="X5" />
+        <input type="text" id="polygon1Y5" placeholder="Y5" />
+        <input type="text" id="polygon1X6" placeholder="X6" />
+        <input type="text" id="polygon1Y6" placeholder="Y6" />
+        <input type="text" id="polygon1X7" placeholder="X7" />
+        <input type="text" id="polygon1Y7" placeholder="Y7" />
+        <input type="text" id="polygon1X8" placeholder="X8" />
+        <input type="text" id="polygon1Y8" placeholder="Y8" />
     </div>
 
     <div class="input-group">
-        <label for="polygon2">Polygon 2 - Points (X, Y):</label>
-        <input type="text" id="polygon2Points" placeholder="Enter comma-separated points for Polygon 2" />
+        <label for="polygon2">Polygon 2 - Enter 8 Points (X, Y):</label>
+        <input type="text" id="polygon2X1" placeholder="X1" />
+        <input type="text" id="polygon2Y1" placeholder="Y1" />
+        <input type="text" id="polygon2X2" placeholder="X2" />
+        <input type="text" id="polygon2Y2" placeholder="Y2" />
+        <input type="text" id="polygon2X3" placeholder="X3" />
+        <input type="text" id="polygon2Y3" placeholder="Y3" />
+        <input type="text" id="polygon2X4" placeholder="X4" />
+        <input type="text" id="polygon2Y4" placeholder="Y4" />
+        <input type="text" id="polygon2X5" placeholder="X5" />
+        <input type="text" id="polygon2Y5" placeholder="Y5" />
+        <input type="text" id="polygon2X6" placeholder="X6" />
+        <input type="text" id="polygon2Y6" placeholder="Y6" />
+        <input type="text" id="polygon2X7" placeholder="X7" />
+        <input type="text" id="polygon2Y7" placeholder="Y7" />
+        <input type="text" id="polygon2X8" placeholder="X8" />
+        <input type="text" id="polygon2Y8" placeholder="Y8" />
     </div>
 
     <button onclick="calculateMetrics()">Calculate Metrics</button>
@@ -78,11 +112,27 @@
         // Function to calculate metrics
         function calculateMetrics() {
             // Get polygon points
-            const polygon1PointsInput = document.getElementById('polygon1Points').value;
-            const polygon1Points = polygon1PointsInput.split(',').map(point => point.split(' ').map(coord => parseFloat(coord)));
+            const polygon1Points = [
+                [parseFloat(document.getElementById('polygon1X1').value), parseFloat(document.getElementById('polygon1Y1').value)],
+                [parseFloat(document.getElementById('polygon1X2').value), parseFloat(document.getElementById('polygon1Y2').value)],
+                [parseFloat(document.getElementById('polygon1X3').value), parseFloat(document.getElementById('polygon1Y3').value)],
+                [parseFloat(document.getElementById('polygon1X4').value), parseFloat(document.getElementById('polygon1Y4').value)],
+                [parseFloat(document.getElementById('polygon1X5').value), parseFloat(document.getElementById('polygon1Y5').value)],
+                [parseFloat(document.getElementById('polygon1X6').value), parseFloat(document.getElementById('polygon1Y6').value)],
+                [parseFloat(document.getElementById('polygon1X7').value), parseFloat(document.getElementById('polygon1Y7').value)],
+                [parseFloat(document.getElementById('polygon1X8').value), parseFloat(document.getElementById('polygon1Y8').value)]
+            ];
 
-            const polygon2PointsInput = document.getElementById('polygon2Points').value;
-            const polygon2Points = polygon2PointsInput.split(',').map(point => point.split(' ').map(coord => parseFloat(coord)));
+            const polygon2Points = [
+                [parseFloat(document.getElementById('polygon2X1').value), parseFloat(document.getElementById('polygon2Y1').value)],
+                [parseFloat(document.getElementById('polygon2X2').value), parseFloat(document.getElementById('polygon2Y2').value)],
+                [parseFloat(document.getElementById('polygon2X3').value), parseFloat(document.getElementById('polygon2Y3').value)],
+                [parseFloat(document.getElementById('polygon2X4').value), parseFloat(document.getElementById('polygon2Y4').value)],
+                [parseFloat(document.getElementById('polygon2X5').value), parseFloat(document.getElementById('polygon2Y5').value)],
+                [parseFloat(document.getElementById('polygon2X6').value), parseFloat(document.getElementById('polygon2Y6').value)],
+                [parseFloat(document.getElementById('polygon2X7').value), parseFloat(document.getElementById('polygon2Y7').value)],
+                [parseFloat(document.getElementById('polygon2X8').value), parseFloat(document.getElementById('polygon2Y8').value)]
+            ];
 
             // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
