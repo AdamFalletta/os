@@ -9,24 +9,7 @@
             border: 1px solid #000;
         }
     </style>
-</head>
-<body>
-    <label for="vectorX">Vector X:</label>
-    <input type="text" id="vectorX" placeholder="Enter vector X (e.g., 5,8)" />
-
-    <label for="vectorY">Vector Y:</label>
-    <input type="text" id="vectorY" placeholder="Enter vector Y (e.g., 2,6)" />
-
-    <button onclick="plotVectors()">Plot</button>
-
-    <canvas id="plotCanvas" width="500" height="500"></canvas>
-
-    <div>
-        <p>Angle between vectors: <span id="angle"></span> degrees</p>
-        <p>Cosine Similarity Score: <span id="similarity"></span></p>
-    </div>
-
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Get canvas context
             const canvas = document.getElementById('plotCanvas');
@@ -87,5 +70,23 @@
             }
         });
     </script>
+</head>
+<body>
+    <label for="vectorX">Vector X:</label>
+    <input type="text" id="vectorX" placeholder="Enter vector X (e.g., 5,8)" />
+
+    <label for="vectorY">Vector Y:</label>
+    <input type="text" id="vectorY" placeholder="Enter vector Y (e.g., 2,6)" />
+
+    <button onclick="plotVectors()">Plot</button>
+
+    <canvas id="plotCanvas" width="500" height="500"></canvas>
+
+    <div>
+        <p>Angle between vectors: <span id="angle"></span> degrees</p>
+        <p>Cosine Similarity Score: <span id="similarity"></span></p>
+    </div>
+
+
 </body>
 </html>
