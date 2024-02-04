@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centroid Distance Calculator for 8-sided Polygons</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+        
+        .input-group {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-group">
+        <label for="polygon1">Polygon 1 - Points (X, Y):</label>
+        <input type="text" id="polygon1Points" placeholder="Enter comma-separated points for Polygon 1" />
+    </div>
+
+    <div class="input-group">
+        <label for="polygon2">Polygon 2 - Points (X, Y):</label>
+        <input type="text" id="polygon2Points" placeholder="Enter comma-separated points for Polygon 2" />
+    </div>
+
+    <button onclick="calculateMetrics()">Calculate Metrics</button>
+
+    <canvas id="plotCanvas" width="500" height="500"></canvas>
+
+    <div>
+        <p>Centroid 1: (<span id="centroid1X"></span>, <span id="centroid1Y"></span>)</p>
+        <p>Centroid 2: (<span id="centroid2X"></span>, <span id="centroid2Y"></span>)</p>
+        <p>Distance between centroids: <span id="centroidDistance"></span></p>
+    </div>
+
+    <script>
+        // Get canvas context
+        const canvas = document.getElementById('plotCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to draw a polygon
+        function drawPolygon(points, color) {
+            ctx.beginPath();
+            ctx.moveTo(points[0][0] * 50, points[0][1] * 50);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i][0] * 50, points[i][1] * 50);
+            }
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Function to calculate centroid of a polygon
+        function calculateCentroid(points) {
+            let centroidX = 0;
+            let centroidY = 0;
+
+            for (let i = 0; i < points.length; i++) {
+                centroidX += points[i][0];
+                centroidY += points[i][1];
+            }
+
+            centroidX /= points.length;
+            centroidY /= points.length;
+
+            return [centroidX, centroidY];
+        }
+
+        // Function to calculate distance between two points
+        function calculateDistance(point1, point2) {
+            return Math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2);
+        }
+
+        // Function to calculate metrics
+        function calculateMetrics() {
+            // Get polygon points
+            const polygon1PointsInput = document.getElementById('polygon1Points').value;
+            const polygon1Points = polygon1PointsInput.split(',').map(point => point.split(' ').map(coord => parseFloat(coord)));
+
+            const polygon2PointsInput = document.getElementById('polygon2Points').value;
+            const polygon2Points = polygon2PointsInput.split(',').map(point => point.split(' ').map(coord => parseFloat(coord)));
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw polygons
+            drawPolygon(polygon1Points, 'rgba(255, 0, 0, 0.5)'); // Polygon 1 in red
+            drawPolygon(polygon2Points, 'rgba(0, 0, 255, 0.5)'); // Polygon 2 in blue
+
+            // Calculate and display centroid of Polygon 1
+            const centroid1 = calculateCentroid(polygon1Points);
+            document.getElementById('centroid1X').textContent = centroid1[0].toFixed(2);
+            document.getElementById('centroid1Y').textContent = centroid1[1].toFixed(2);
+
+            // Calculate and display centroid of Polygon 2
+            const centroid2 = calculateCentroid(polygon2Points);
+            document.getElementById('centroid2X').textContent = centroid2[0].toFixed(2);
+            document.getElementById('centroid2Y').textContent = centroid2[1].toFixed(2);
+
+            // Draw line connecting centroids
+            ctx.beginPath();
+            ctx.moveTo(centroid1[0] * 50, centroid1[1] * 50);
+            ctx.lineTo(centroid2[0] * 50, centroid2[1] * 50);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+
+            // Calculate and display distance between centroids
+            const centroidDistance = calculateDistance(centroid1, centroid2);
+            document.getElementById('centroidDistance').textContent = centroidDistance.toFixed(2);
+        }
+    </script>
+</body>
+</html>
