@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirrored Video</title>
+  <style>
+    #container {
+      position: relative;
+    }
+
+    #original, #mirrored {
+      width: 1000px;
+      margin-bottom: 10px;
+      display:block;
+      margin-left:450px;
+    }
+
+    #mirrored {
+
+      bottom: 0;
+    }
+  </style>
+</head>
+<body style="background:#111111;>
+
+<div id="container">
+  <video id="original" width="300" controls>
+    <source src="https://video-previews.elements.envatousercontent.com/h264-video-previews/5358b432-97d7-4292-8948-e89a13a2fb2b/14352270.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <canvas id="mirrored" width="300" height="225" style="margin-top: 0px;
+    filter: blur(10px) opacity(.2); transform: rotate(180deg) scaleX(-1);"></canvas>
+</div>
+
+<script>
+  const originalVideo = document.getElementById('original');
+  const mirroredCanvas = document.getElementById('mirrored');
+  const mirroredContext = mirroredCanvas.getContext('2d');
+
+  originalVideo.addEventListener('play', function() {
+    mirroredCanvas.width = originalVideo.videoWidth;
+    mirroredCanvas.height = originalVideo.videoHeight;
+
+    function mirrorVideo() {
+      mirroredContext.drawImage(originalVideo, 0, 0, mirroredCanvas.width, mirroredCanvas.height);
+      requestAnimationFrame(mirrorVideo);
+    }
+
+    mirrorVideo();
+  });
+
+  originalVideo.addEventListener('pause', function() {
+    cancelAnimationFrame();
+  });
+
+  originalVideo.addEventListener('ended', function() {
+    cancelAnimationFrame();
+  });
+
+  function cancelAnimationFrame() {
+    mirroredContext.clearRect(0, 0, mirroredCanvas.width, mirroredCanvas.height);
+  }
+</script>
+
+</body>
+</html>
