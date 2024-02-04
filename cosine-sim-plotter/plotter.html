@@ -7,26 +7,58 @@
     <style>
         canvas {
             border: 1px solid #000;
-          transform:rotate(-90deg);
+        }
+        
+        .input-group {
+            display: block;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <label for="triangleA">Triangle A (X, Y):</label>
-    <input type="text" id="triangleAX" placeholder="Enter X coordinate for A" />
-    <input type="text" id="triangleAY" placeholder="Enter Y coordinate for A" />
+    <div class="input-group">
+        <label for="triangleA1">Triangle 1 - A (X, Y):</label>
+        <input type="text" id="triangleA1X" placeholder="Enter X coordinate for A" />
+        <input type="text" id="triangleA1Y" placeholder="Enter Y coordinate for A" />
+    </div>
 
-    <input type="text" id="triangleBX" placeholder="Enter X coordinate for B" />
-    <input type="text" id="triangleBY" placeholder="Enter Y coordinate for B" />
+    <div class="input-group">
+        <label for="triangleB1">Triangle 1 - B (X, Y):</label>
+        <input type="text" id="triangleB1X" placeholder="Enter X coordinate for B" />
+        <input type="text" id="triangleB1Y" placeholder="Enter Y coordinate for B" />
+    </div>
 
-    <input type="text" id="triangleCX" placeholder="Enter X coordinate for C" />
-    <input type="text" id="triangleCY" placeholder="Enter Y coordinate for C" />
+    <div class="input-group">
+        <label for="triangleC1">Triangle 1 - C (X, Y):</label>
+        <input type="text" id="triangleC1X" placeholder="Enter X coordinate for C" />
+        <input type="text" id="triangleC1Y" placeholder="Enter Y coordinate for C" />
+    </div>
+
+    <div class="input-group">
+        <label for="triangleA2">Triangle 2 - A (X, Y):</label>
+        <input type="text" id="triangleA2X" placeholder="Enter X coordinate for A" />
+        <input type="text" id="triangleA2Y" placeholder="Enter Y coordinate for A" />
+    </div>
+
+    <div class="input-group">
+        <label for="triangleB2">Triangle 2 - B (X, Y):</label>
+        <input type="text" id="triangleB2X" placeholder="Enter X coordinate for B" />
+        <input type="text" id="triangleB2Y" placeholder="Enter Y coordinate for B" />
+    </div>
+
+    <div class="input-group">
+        <label for="triangleC2">Triangle 2 - C (X, Y):</label>
+        <input type="text" id="triangleC2X" placeholder="Enter X coordinate for C" />
+        <input type="text" id="triangleC2Y" placeholder="Enter Y coordinate for C" />
+    </div>
 
     <button onclick="calculateMetrics()">Calculate Metrics</button>
 
     <canvas id="plotCanvas" width="500" height="500"></canvas>
 
     <div>
+        <p>Centroid 1: (<span id="centroid1X"></span>, <span id="centroid1Y"></span>)</p>
+        <p>Centroid 2: (<span id="centroid2X"></span>, <span id="centroid2Y"></span>)</p>
         <p>Distance between centroids: <span id="centroidDistance"></span></p>
     </div>
 
@@ -62,41 +94,56 @@
         // Function to calculate metrics
         function calculateMetrics() {
             // Get triangle coordinates
-            const triangleAX = parseFloat(document.getElementById('triangleAX').value);
-            const triangleAY = parseFloat(document.getElementById('triangleAY').value);
-            const triangleA = [triangleAX, triangleAY];
+            const triangleA1X = parseFloat(document.getElementById('triangleA1X').value);
+            const triangleA1Y = parseFloat(document.getElementById('triangleA1Y').value);
+            const triangleA1 = [triangleA1X, triangleA1Y];
 
-            const triangleBX = parseFloat(document.getElementById('triangleBX').value);
-            const triangleBY = parseFloat(document.getElementById('triangleBY').value);
-            const triangleB = [triangleBX, triangleBY];
+            const triangleB1X = parseFloat(document.getElementById('triangleB1X').value);
+            const triangleB1Y = parseFloat(document.getElementById('triangleB1Y').value);
+            const triangleB1 = [triangleB1X, triangleB1Y];
 
-            const triangleCX = parseFloat(document.getElementById('triangleCX').value);
-            const triangleCY = parseFloat(document.getElementById('triangleCY').value);
-            const triangleC = [triangleCX, triangleCY];
+            const triangleC1X = parseFloat(document.getElementById('triangleC1X').value);
+            const triangleC1Y = parseFloat(document.getElementById('triangleC1Y').value);
+            const triangleC1 = [triangleC1X, triangleC1Y];
+
+            const triangleA2X = parseFloat(document.getElementById('triangleA2X').value);
+            const triangleA2Y = parseFloat(document.getElementById('triangleA2Y').value);
+            const triangleA2 = [triangleA2X, triangleA2Y];
+
+            const triangleB2X = parseFloat(document.getElementById('triangleB2X').value);
+            const triangleB2Y = parseFloat(document.getElementById('triangleB2Y').value);
+            const triangleB2 = [triangleB2X, triangleB2Y];
+
+            const triangleC2X = parseFloat(document.getElementById('triangleC2X').value);
+            const triangleC2Y = parseFloat(document.getElementById('triangleC2Y').value);
+            const triangleC2 = [triangleC2X, triangleC2Y];
 
             // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw triangles
-            drawTriangle(triangleA, triangleB, triangleC, 'rgba(255, 0, 0, 0.5)'); // Triangle A in red
+            drawTriangle(triangleA1, triangleB1, triangleC1, 'rgba(255, 0, 0, 0.5)'); // Triangle 1 in red
+            drawTriangle(triangleA2, triangleB2, triangleC2, 'rgba(0, 0, 255, 0.5)'); // Triangle 2 in blue
 
-            // Calculate and draw centroid of Triangle A
-            const centroidA = calculateCentroid(triangleA, triangleB, triangleC);
-            drawTriangle(centroidA, centroidA, centroidA, 'rgba(0, 255, 0, 0.5)'); // Centroid of Triangle A in green
+            // Calculate and display centroid of Triangle 1
+            const centroid1 = calculateCentroid(triangleA1, triangleB1, triangleC1);
+            document.getElementById('centroid1X').textContent = centroid1[0].toFixed(2);
+            document.getElementById('centroid1Y').textContent = centroid1[1].toFixed(2);
 
-            // Calculate and draw centroid of Triangle B
-            const centroidB = calculateCentroid([triangleA[0] + 1, triangleA[1] + 1], [triangleB[0] + 1, triangleB[1] + 1], [triangleC[0] + 1, triangleC[1] + 1]);
-            drawTriangle(centroidB, centroidB, centroidB, 'rgba(0, 0, 255, 0.5)'); // Centroid of Triangle B in blue
+            // Calculate and display centroid of Triangle 2
+            const centroid2 = calculateCentroid(triangleA2, triangleB2, triangleC2);
+            document.getElementById('centroid2X').textContent = centroid2[0].toFixed(2);
+            document.getElementById('centroid2Y').textContent = centroid2[1].toFixed(2);
 
             // Draw line connecting centroids
             ctx.beginPath();
-            ctx.moveTo(centroidA[0] * 50, centroidA[1] * 50);
-            ctx.lineTo(centroidB[0] * 50, centroidB[1] * 50);
+            ctx.moveTo(centroid1[0] * 50, centroid1[1] * 50);
+            ctx.lineTo(centroid2[0] * 50, centroid2[1] * 50);
             ctx.strokeStyle = 'black';
             ctx.stroke();
 
             // Calculate and display distance between centroids
-            const centroidDistance = calculateDistance(centroidA, centroidB);
+            const centroidDistance = calculateDistance(centroid1, centroid2);
             document.getElementById('centroidDistance').textContent = centroidDistance.toFixed(2);
         }
     </script>
