@@ -9,67 +9,6 @@
             border: 1px solid #000;
         }
     </style>
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get canvas context
-            const canvas = document.getElementById('plotCanvas');
-            const ctx = canvas.getContext('2d');
-
-            // Function to draw a circle
-            function drawCircle(x, y, color) {
-                ctx.beginPath();
-                ctx.arc(x, y, 10, 0, 2 * Math.PI);
-                ctx.fillStyle = color;
-                ctx.fill();
-                ctx.stroke();
-            }
-
-            // Function to calculate cosine similarity
-            function cosineSimilarity(x, y) {
-                const dotProduct = x[0] * y[0] + x[1] * y[1];
-                const magnitudeX = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
-                const magnitudeY = Math.sqrt(y[0] * y[0] + y[1] * y[1]);
-                const similarity = dotProduct / (magnitudeX * magnitudeY);
-                const angle = Math.acos(similarity) * (180 / Math.PI); // Convert radians to degrees
-                return { angle, similarity };
-            }
-
-            // Function to update vectors and plot
-            function plotVectors() {
-                // Get vector inputs
-                const vectorXInput = document.getElementById('vectorX').value;
-                const vectorYInput = document.getElementById('vectorY').value;
-
-                // Parse vectors from input
-                const vectorX = vectorXInput.split(',').map(Number);
-                const vectorY = vectorYInput.split(',').map(Number);
-
-                // Clear canvas
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Plot circles for vectors
-                drawCircle(vectorX[0] * 50, vectorX[1] * 50, 'red'); // Scale by 50 for better visualization
-                drawCircle(vectorY[0] * 50, vectorY[1] * 50, 'blue');
-
-                // Calculate cosine similarity
-                const result = cosineSimilarity(vectorX, vectorY);
-
-                // Display angle and similarity score
-                document.getElementById('angle').textContent = result.angle.toFixed(2);
-                document.getElementById('similarity').textContent = result.similarity.toFixed(2);
-
-                // Draw arc representing the angle
-                const midX = (vectorX[0] + vectorY[0]) * 25; // Midpoint scaled by 25
-                const midY = (vectorX[1] + vectorY[1]) * 25;
-                const radius = 50; // Radius of the arc
-
-                ctx.beginPath();
-                ctx.arc(midX, midY, radius, 0, result.angle * (Math.PI / 180));
-                ctx.strokeStyle = 'green';
-                ctx.stroke();
-            }
-        });
-    </script>
 </head>
 <body>
     <label for="vectorX">Vector X:</label>
@@ -87,6 +26,64 @@
         <p>Cosine Similarity Score: <span id="similarity"></span></p>
     </div>
 
+    <script>
+        // Get canvas context
+        const canvas = document.getElementById('plotCanvas');
+        const ctx = canvas.getContext('2d');
 
+        // Function to draw a circle
+        function drawCircle(x, y, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Function to calculate cosine similarity
+        function cosineSimilarity(x, y) {
+            const dotProduct = x[0] * y[0] + x[1] * y[1];
+            const magnitudeX = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
+            const magnitudeY = Math.sqrt(y[0] * y[0] + y[1] * y[1]);
+            const similarity = dotProduct / (magnitudeX * magnitudeY);
+            const angle = Math.acos(similarity) * (180 / Math.PI); // Convert radians to degrees
+            return { angle, similarity };
+        }
+
+        // Function to update vectors and plot
+        function plotVectors() {
+            // Get vector inputs
+            const vectorXInput = document.getElementById('vectorX').value;
+            const vectorYInput = document.getElementById('vectorY').value;
+
+            // Parse vectors from input
+            const vectorX = vectorXInput.split(',').map(Number);
+            const vectorY = vectorYInput.split(',').map(Number);
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Plot circles for vectors
+            drawCircle(vectorX[0] * 50, vectorX[1] * 50, 'red'); // Scale by 50 for better visualization
+            drawCircle(vectorY[0] * 50, vectorY[1] * 50, 'blue');
+
+            // Calculate cosine similarity
+            const result = cosineSimilarity(vectorX, vectorY);
+
+            // Display angle and similarity score
+            document.getElementById('angle').textContent = result.angle.toFixed(2);
+            document.getElementById('similarity').textContent = result.similarity.toFixed(2);
+
+            // Draw arc representing the angle
+            const midX = (vectorX[0] + vectorY[0]) * 25; // Midpoint scaled by 25
+            const midY = (vectorX[1] + vectorY[1]) * 25;
+            const radius = 50; // Radius of the arc
+
+            ctx.beginPath();
+            ctx.arc(midX, midY, radius, 0, result.angle * (Math.PI / 180));
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+        }
+    </script>
 </body>
 </html>
